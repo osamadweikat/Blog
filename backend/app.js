@@ -9,6 +9,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/api/auth", require("./routes/authRoute"));
+app.use("/api/users", require("./routes/usersRoute"));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () =>
