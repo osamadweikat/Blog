@@ -82,7 +82,6 @@ module.exports.getUsersCount = asyncHandler(async (req, res) => {
  * @method POST
  * @access private (only logged in user)
  */
-
 module.exports.profilePhotoUpload = asyncHandler(async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: "No file provided" });
@@ -111,4 +110,25 @@ module.exports.profilePhotoUpload = asyncHandler(async (req, res) => {
   });
 
   fs.unlinkSync(imagePath);
+});
+
+/**
+ * @desc Delete User Profile (Account)
+ * @route /api/users/profile/:id
+ * @method DELETE
+ * @access private (only admin or user himself)
+ */
+module.exports.deleteUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  await cloudinaryRemoveImage(user.profilePhoto.publicId);
+
+  await User.findByIdAndDelete(req.params.id);
+
+  res
+    .status(200)
+    .json({ message: "Your profile has been deleted successfully" });
 });
