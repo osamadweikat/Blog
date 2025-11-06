@@ -3,6 +3,7 @@ const path = require("path");
 const asyncHanddler = require("express-async-handler");
 const { Post, validateCreatePost } = require("../models/Post");
 const { cloudinaryUploadImage } = require("../utils/cloudinary");
+const { createDecipheriv } = require("crypto");
 
 /**
  * @desc Create New Post
@@ -36,4 +37,32 @@ module.exports.createPost = asyncHanddler(async (req, res) => {
 
   res.status(201).json(post);
   fs.unlink(imagePath);
+});
+
+/**
+ * @desc Get All Posts
+ * @route /api/posts
+ * @method GET
+ * @access public
+ */
+module.exports.getAllPosts = asyncHanddler(async (req, res) => {
+  const POST_PER_PAGE = 3;
+  const { pageNumber, category } = req.query;
+  let posts;
+  if (pageNumber) {
+    posts = await Post.find()
+      .skip((pageNumber - 1) * POST_PER_PAGE)
+      .limit(POST_PER_PAGE)
+      .sort({ createdAt: -1 })
+      .populate("user", ["-password"]);
+  } else if (category) {
+    posts = await Post.find({ category })
+      .sort({ createdAt: -1 })
+      .populate("user", ["-password"]);
+  } else {
+    posts = await Post.find()
+      .sort({ createdAt: -1 })
+      .populate("user", ["-password"]);
+  }
+  res.status(200).json(posts);
 });
