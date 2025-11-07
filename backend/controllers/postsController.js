@@ -36,7 +36,7 @@ module.exports.createPost = asyncHanddler(async (req, res) => {
   });
 
   res.status(201).json(post);
-  fs.unlink(imagePath);
+  fs.unlinkSync(imagePath);
 });
 
 /**
@@ -65,4 +65,31 @@ module.exports.getAllPosts = asyncHanddler(async (req, res) => {
       .populate("user", ["-password"]);
   }
   res.status(200).json(posts);
+});
+
+/**
+ * @desc Get Post
+ * @route /api/posts/:id
+ * @method GET
+ * @access public
+ */
+module.exports.getPost = asyncHanddler(async (req, res) => {
+  const post = await Post.findById(req.params.id).populate("user", [
+    "-password",
+  ]);
+  if (!post) {
+    return res.status(404).json({ message: "Post not found" });
+  }
+  res.status(200).json(post);
+});
+
+/**
+ * @desc Get Post Count
+ * @route /api/posts/count
+ * @method GET
+ * @access public
+ */
+module.exports.getPostCount = asyncHanddler(async (req, res) => {
+  const count = await Post.estimatedDocumentCount();
+  res.status(200).json(count);
 });
