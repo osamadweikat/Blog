@@ -201,9 +201,49 @@ module.exports.updatePostImage = asyncHanddler(async (req, res) => {
       },
     },
     { new: true }
-  ).populate("user", ["-password"]);
+  );
 
   res.status(200).json(updatedPost);
 
   fs.unlinkSync(imagePath);
+});
+
+/**
+ * @desc Toggle Like
+ * @route /api/posts/like/:id
+ * @method PUT
+ * @access private (only logged in user)
+ */
+module.exports.toggleLike = asyncHanddler(async (req, res) => {
+  let post = await Post.findById(req.params.id);
+  if (!post) {
+    return res.status(404).json({ message: "Post not found" });
+  }
+
+  const isPostAlreadyLiked = post.likes.find(
+    (user) => user.toString() === req.user.id
+  );
+  if (isPostAlreadyLiked) {
+    post = await Post.findByIdAndUpdate(
+      req.params.id,
+      {
+        $pull: {
+          likes: req.user.id,
+        },
+      },
+      { new: true }
+    );
+  } else {
+    post = await Post.findByIdAndUpdate(
+      req.params.id,
+      {
+        $push: {
+          likes: req.user.id,
+        },
+      },
+      { new: true }
+    );
+  }
+
+  res.status(200).json(post);
 });
