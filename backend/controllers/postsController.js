@@ -1,7 +1,11 @@
 const fs = require("fs");
 const path = require("path");
 const asyncHanddler = require("express-async-handler");
-const { Post, validateCreatePost } = require("../models/Post");
+const {
+  Post,
+  validateCreatePost,
+  validateUpdatePost,
+} = require("../models/Post");
 const {
   cloudinaryUploadImage,
   cloudinaryRemoveImage,
@@ -119,4 +123,87 @@ module.exports.deletePost = asyncHanddler(async (req, res) => {
   } else {
     res.status(403).json({ message: "Access denied, forbidden" });
   }
+});
+
+/**
+ * @desc Update Post
+ * @route /api/posts/:id
+ * @method PUT
+ * @access private (only owner of the post)
+ */
+module.exports.updatePost = asyncHanddler(async (req, res) => {
+  const { error } = validateUpdatePost(req.body);
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+
+  const post = await Post.findById(req.params.id);
+  if (!post) {
+    return res.status(404).json({ message: "Post not found" });
+  }
+
+  if (req.user.id !== post.user.toString()) {
+    return res
+      .status(403)
+      .json({ message: "Access denied, you are not allowed" });
+  }
+
+  const updatedPost = await Post.findByIdAndUpdate(
+    req.params.id,
+    {
+      $set: {
+        title: req.body.title,
+        description: req.body.description,
+        category: req.body.category,
+      },
+    },
+    { new: true }
+  ).populate("user", ["-password"]);
+
+  res.status(200).json(updatedPost);
+});
+
+/**
+ * @desc Update Post Image
+ * @route /api/posts/upload-image/:id
+ * @method PUT
+ * @access private (only owner of the post)
+ */
+module.exports.updatePostImage = asyncHanddler(async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: "No immage provided" });
+  }
+
+  const post = await Post.findById(req.params.id);
+  if (!post) {
+    return res.status(404).json({ message: "Post not found" });
+  }
+
+  if (req.user.id !== post.user.toString()) {
+    return res
+      .status(403)
+      .json({ message: "Access denied, you are not allowed" });
+  }
+
+  await cloudinaryRemoveImage(post.image.publicId);
+
+  const imagePath = path.join(__dirname, `../images/${req.file.filename}`);
+  const result = await cloudinaryUploadImage(imagePath);
+
+  const updatedPost = await Post.findByIdAndUpdate(
+    req.params.id,
+    {
+      $set: {
+        image: {
+          url: result.secure_url,
+          publicId: result.public_id,
+        },
+      },
+    },
+    { new: true }
+  ).populate("user", ["-password"]);
+
+  res.status(200).json(updatedPost);
+
+  fs.unlinkSync(imagePath);
 });
