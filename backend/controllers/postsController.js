@@ -2,7 +2,10 @@ const fs = require("fs");
 const path = require("path");
 const asyncHanddler = require("express-async-handler");
 const { Post, validateCreatePost } = require("../models/Post");
-const { cloudinaryUploadImage } = require("../utils/cloudinary");
+const {
+  cloudinaryUploadImage,
+  cloudinaryRemoveImage,
+} = require("../utils/cloudinary");
 const { createDecipheriv } = require("crypto");
 
 /**
@@ -92,4 +95,28 @@ module.exports.getPost = asyncHanddler(async (req, res) => {
 module.exports.getPostCount = asyncHanddler(async (req, res) => {
   const count = await Post.estimatedDocumentCount();
   res.status(200).json(count);
+});
+
+/**
+ * @desc Delete Post
+ * @route /api/posts/:id
+ * @method DELETE
+ * @access private (only admin or owner of the post)
+ */
+module.exports.deletePost = asyncHanddler(async (req, res) => {
+  const post = await Post.findById(req.params.id);
+  if (!post) {
+    return res.status(404).json({ message: "Post not found" });
+  }
+
+  if (req.user.isAdmin || req.user.id === post.user.toString()) {
+    await Post.findByIdAndDelete(req.params.id);
+    await cloudinaryRemoveImage(post.image.publicId);
+    res.status(200).json({
+      message: "Post has been deleted successfully",
+      postId: post._id,
+    });
+  } else {
+    res.status(403).json({ message: "Access denied, forbidden" });
+  }
 });
