@@ -20,3 +20,35 @@ module.exports.createCategory = asyncHandler(async (req, res) => {
 
   res.status(201).json(category);
 });
+
+/**
+ * @desc Get All Categories
+ * @route /api/categories
+ * @method GET
+ * @access public
+ */
+module.exports.getAllCategories = asyncHandler(async (req, res) => {
+  const categories = await Category.find();
+  res.status(200).json(categories);
+});
+
+/**
+ * @desc Delete Category
+ * @route /api/categories/:id
+ * @method DELET
+ * @access private (only admin)
+ */
+module.exports.deleteCategory = asyncHandler(async (req, res) => {
+  const category = await Category.findById(req.params.id);
+  if (!category) {
+    return res.status(404).json({ message: "Category not found" });
+  }
+
+  await Category.findByIdAndDelete(req.params.id);
+  res
+    .status(200)
+    .json({
+      message: "Category has been deleted successfully",
+      categoryId: category._id,
+    });
+});
