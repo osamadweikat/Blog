@@ -1,5 +1,3 @@
-const fs = require("fs");
-const path = require("path");
 const asyncHanddler = require("express-async-handler");
 const {
   Post,
@@ -19,17 +17,12 @@ const { Comment } = require("../models/Comment");
  * @access private (only logged in user)
  */
 module.exports.createPost = asyncHanddler(async (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ message: "No image provided" });
-  }
+  if (!req.file) return res.status(400).json({ message: "No image provided" });
 
   const { error } = validateCreatePost(req.body);
-  if (error) {
-    return res.status(400).json({ message: error.details[0].message });
-  }
+  if (error) return res.status(400).json({ message: error.details[0].message });
 
-  const imagePath = path.join(__dirname, `../images/${req.file.filename}`);
-  const result = await cloudinaryUploadImage(imagePath);
+  const result = await cloudinaryUploadImage(req.file.buffer);
 
   const post = await Post.create({
     title: req.body.title,
@@ -43,7 +36,6 @@ module.exports.createPost = asyncHanddler(async (req, res) => {
   });
 
   res.status(201).json(post);
-  fs.unlinkSync(imagePath);
 });
 
 /**
@@ -84,10 +76,13 @@ module.exports.getPost = asyncHanddler(async (req, res) => {
   const post = await Post.findById(req.params.id)
     .populate("user", ["-password"])
     .populate("comments");
-  if (!post) {
-    return res.status(404).json({ message: "Post not found" });
-  }
+  if (!post) return res.status(404).json({ message: "Post not found" });
   res.status(200).json(post);
+});
+
+module.exports.getPostCount = asyncHanddler(async (req, res) => {
+  const count = await Post.estimatedDocumentCount();
+  res.status(200).json(count);
 });
 
 /**
@@ -109,18 +104,18 @@ module.exports.getPostCount = asyncHanddler(async (req, res) => {
  */
 module.exports.deletePost = asyncHanddler(async (req, res) => {
   const post = await Post.findById(req.params.id);
-  if (!post) {
-    return res.status(404).json({ message: "Post not found" });
-  }
+  if (!post) return res.status(404).json({ message: "Post not found" });
 
   if (req.user.isAdmin || req.user.id === post.user.toString()) {
     await Post.findByIdAndDelete(req.params.id);
     await cloudinaryRemoveImage(post.image.publicId);
     await Comment.deleteMany({ postId: post._id });
-    res.status(200).json({
-      message: "Post has been deleted successfully",
-      postId: post._id,
-    });
+    res
+      .status(200)
+      .json({
+        message: "Post has been deleted successfully",
+        postId: post._id,
+      });
   } else {
     res.status(403).json({ message: "Access denied, forbidden" });
   }
@@ -171,42 +166,25 @@ module.exports.updatePost = asyncHanddler(async (req, res) => {
  * @access private (only owner of the post)
  */
 module.exports.updatePostImage = asyncHanddler(async (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ message: "No immage provided" });
-  }
+  if (!req.file) return res.status(400).json({ message: "No image provided" });
 
   const post = await Post.findById(req.params.id);
-  if (!post) {
-    return res.status(404).json({ message: "Post not found" });
-  }
-
-  if (req.user.id !== post.user.toString()) {
+  if (!post) return res.status(404).json({ message: "Post not found" });
+  if (req.user.id !== post.user.toString())
     return res
       .status(403)
       .json({ message: "Access denied, you are not allowed" });
-  }
 
   await cloudinaryRemoveImage(post.image.publicId);
-
-  const imagePath = path.join(__dirname, `../images/${req.file.filename}`);
-  const result = await cloudinaryUploadImage(imagePath);
+  const result = await cloudinaryUploadImage(req.file.buffer);
 
   const updatedPost = await Post.findByIdAndUpdate(
     req.params.id,
-    {
-      $set: {
-        image: {
-          url: result.secure_url,
-          publicId: result.public_id,
-        },
-      },
-    },
+    { $set: { image: { url: result.secure_url, publicId: result.public_id } } },
     { new: true }
   );
 
   res.status(200).json(updatedPost);
-
-  fs.unlinkSync(imagePath);
 });
 
 /**

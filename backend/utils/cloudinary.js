@@ -1,4 +1,5 @@
-const cloudinary = require("cloudinary");
+const cloudinary = require("cloudinary").v2;
+const streamifier = require("streamifier");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -6,15 +7,17 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const cloudinaryUploadImage = async (fileToUpload) => {
-  try {
-    const data = await cloudinary.uploader.upload(fileToUpload, {
-      resource_type: "auto",
-    });
-    return data;
-  } catch (error) {
-    return error;
-  }
+const cloudinaryUploadImage = (buffer) => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { resource_type: "auto" },
+      (error, result) => {
+        if (result) resolve(result);
+        else reject(error);
+      }
+    );
+    streamifier.createReadStream(buffer).pipe(stream);
+  });
 };
 
 const cloudinaryRemoveImage = async (imagePublicId) => {
@@ -28,7 +31,7 @@ const cloudinaryRemoveImage = async (imagePublicId) => {
 
 const cloudinaryRemoveImages = async (publicIds) => {
   try {
-    const result = await cloudinary.v2.api.delete_resources(publicIds);
+    const result = await cloudinary.api.delete_resources(publicIds);
     return result;
   } catch (error) {
     return error;
