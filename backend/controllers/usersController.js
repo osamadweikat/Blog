@@ -6,7 +6,10 @@ const { User, validateUpdateUser } = require("../models/User");
 const {
   cloudinaryUploadImage,
   cloudinaryRemoveImage,
+  cloudinaryRemoveImages,
 } = require("../utils/cloudinary");
+const { Comment } = require("../models/Comment");
+const { Post } = require("../models/Post");
 
 /**
  * @desc Get All Users Profile
@@ -126,8 +129,16 @@ module.exports.deleteUser = asyncHandler(async (req, res) => {
     return res.status(404).json({ message: "User not found" });
   }
 
-  await cloudinaryRemoveImage(user.profilePhoto.publicId);
+  const posts = await Post.find({ user: user._id });
+  const publicIds = posts?.map((post) => post.image.publicId);
 
+  if (publicIds?.length > 0) {
+    await cloudinaryRemoveImages(publicIds);
+  }
+
+  await cloudinaryRemoveImage(user.profilePhoto.publicId);
+  await Post.deleteMany({ user: user._id });
+  await Comment.deleteMany({ user: user._id });
   await User.findByIdAndDelete(req.params.id);
 
   res
