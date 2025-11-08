@@ -39,8 +39,15 @@ const PostSchema = new mongoose.Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
+
+PostSchema.virtual("comments", {
+  ref: "Comment",
+  foreignField: "postId",
+  localField: "_id",
+});
+
 const Post = mongoose.model("Post", PostSchema);
 
 function validateCreatePost(obj) {
