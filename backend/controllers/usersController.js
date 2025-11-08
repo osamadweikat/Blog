@@ -1,7 +1,5 @@
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
-const path = require("path");
-const fs = require("fs");
 const { User, validateUpdateUser } = require("../models/User");
 const {
   cloudinaryUploadImage,
@@ -92,13 +90,11 @@ module.exports.profilePhotoUpload = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "No file provided" });
   }
 
-  const imagePath = path.join(__dirname, `../images/${req.file.filename}`);
-
-  const result = await cloudinaryUploadImage(imagePath);
+  const result = await cloudinaryUploadImage(req.file.buffer);
 
   const user = await User.findById(req.user.id);
 
-  if (user.profilePhoto.publicId !== null) {
+  if (user.profilePhoto && user.profilePhoto.publicId) {
     await cloudinaryRemoveImage(user.profilePhoto.publicId);
   }
 
@@ -113,8 +109,6 @@ module.exports.profilePhotoUpload = asyncHandler(async (req, res) => {
     message: "Your profile photo uploaded successfully",
     profilePhoto: { url: result.secure_url, publicId: result.public_id },
   });
-
-  fs.unlinkSync(imagePath);
 });
 
 /**
@@ -136,7 +130,10 @@ module.exports.deleteUser = asyncHandler(async (req, res) => {
     await cloudinaryRemoveImages(publicIds);
   }
 
-  await cloudinaryRemoveImage(user.profilePhoto.publicId);
+  if (user.profilePhoto && user.profilePhoto.publicId) {
+    await cloudinaryRemoveImage(user.profilePhoto.publicId);
+  }
+
   await Post.deleteMany({ user: user._id });
   await Comment.deleteMany({ user: user._id });
   await User.findByIdAndDelete(req.params.id);
