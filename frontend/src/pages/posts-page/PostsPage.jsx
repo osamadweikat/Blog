@@ -1,5 +1,17 @@
+import "./posts-page.css";
+import PostList from "../../components/posts/PostList";
+import Sidebar from "../../components/sidebar/Sidebar";
+import { posts, categories } from "../../dummyData";
+
 const PostsPage = () => {
-  return <h1>Posts Page</h1>;
+  return (
+    <>
+      <section className="posts-page">
+        <PostList posts={posts} />
+        <Sidebar categories={categories} />
+      </section>
+    </>
+  );
 };
 
 export default PostsPage;
