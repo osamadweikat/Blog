@@ -1,6 +1,7 @@
 import "./home.css";
 import PostList from "../../components/posts/PostList";
-import { posts } from "../../dummyData";
+import { posts, categories } from "../../dummyData";
+import Sidebar from "../../components/sidebar/Sidebar";
 
 const Home = () => {
   return (
@@ -13,7 +14,7 @@ const Home = () => {
       <div className="home-latest-post">Latest Posts</div>
       <div className="home-container">
         <PostList posts={posts} />
-        <div className="post-sidebar">Side Bar</div>
+        <Sidebar categories={categories} />
       </div>
     </section>
   );

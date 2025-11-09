@@ -1,4 +1,4 @@
-import "./posts.css"
+import "./posts.css";
 import PostItem from "./PostItem";
 
 const PostList = ({ posts }) => {
