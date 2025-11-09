@@ -1,43 +1,17 @@
 import "./header.css";
+import { useState } from "react";
+import Navbar from "./Navbar";
+import HeaderLeft from "./HeaderLeft";
+import HeaderRight from "./HeaderRight";
 
 const Header = () => {
+  const [toggle, setToggle] = useState(false);
+
   return (
     <header className="header">
-      <div className="header-left">
-        <div className="header-logo">
-          <strong>BLOG</strong>
-          <i className="bi bi-pencil"></i>
-        </div>
-        <div className="header-menu">
-          <i className="bi bi-list"></i>
-        </div>
-      </div>
-      <nav className="navbar">
-        <ul className="nav-links">
-          <li className="nav-link">
-            <i className="bi bi-house"></i> Home
-          </li>
-          <li className="nav-link">
-            <i className="bi bi-stickies"></i> Posts
-          </li>
-          <li className="nav-link">
-            <i className="bi bi-journal-plus"></i> Craete
-          </li>
-          <li className="nav-link">
-            <i className="bi bi-person-check"></i> Admin Dashboard
-          </li>
-        </ul>
-      </nav>
-      <div className="header-right">
-        <button className="header-right-link">
-          <i className="bi bi-box-arrow-in-right"></i>
-          <span>Login</span>
-        </button>
-        <button className="header-right-link">
-          <i className="bi bi-person-plus"></i>
-          <span>Register</span>
-        </button>
-      </div>
+      <HeaderLeft toggle={toggle} setToggle={setToggle} />
+      <Navbar toggle={toggle} setToggle={setToggle} />
+      <HeaderRight />
     </header>
   );
 };
