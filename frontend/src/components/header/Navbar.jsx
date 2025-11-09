@@ -17,7 +17,7 @@ const Navbar = ({ toggle, setToggle }) => {
         </Link>
         <Link
           onClick={() => setToggle(false)}
-          to="/posts/create"
+          to="/posts/create-post"
           className="nav-link"
         >
           <i className="bi bi-journal-plus"></i>
