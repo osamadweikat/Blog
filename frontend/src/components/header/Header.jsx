@@ -29,14 +29,14 @@ const Header = () => {
         </ul>
       </nav>
       <div className="header-right">
-        <div className="header-right-link">
+        <button className="header-right-link">
           <i className="bi bi-box-arrow-in-right"></i>
           <span>Login</span>
-        </div>
-        <div className="header-right-link">
+        </button>
+        <button className="header-right-link">
           <i className="bi bi-person-plus"></i>
           <span>Register</span>
-        </div>
+        </button>
       </div>
     </header>
   );
