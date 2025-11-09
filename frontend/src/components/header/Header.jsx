@@ -1,0 +1,45 @@
+import "./header.css";
+
+const Header = () => {
+  return (
+    <header className="header">
+      <div className="header-left">
+        <div className="header-logo">
+          <strong>BLOG</strong>
+          <i className="bi bi-pencil"></i>
+        </div>
+        <div className="header-menu">
+          <i className="bi bi-list"></i>
+        </div>
+      </div>
+      <nav className="navbar">
+        <ul className="nav-links">
+          <li className="nav-link">
+            <i className="bi bi-house"></i> Home
+          </li>
+          <li className="nav-link">
+            <i className="bi bi-stickies"></i> Posts
+          </li>
+          <li className="nav-link">
+            <i className="bi bi-journal-plus"></i> Craete
+          </li>
+          <li className="nav-link">
+            <i className="bi bi-person-check"></i> Admin Dashboard
+          </li>
+        </ul>
+      </nav>
+      <div className="header-right">
+        <div className="header-right-link">
+          <i className="bi bi-box-arrow-in-right"></i>
+          <span>Login</span>
+        </div>
+        <div className="header-right-link">
+          <i className="bi bi-person-plus"></i>
+          <span>Register</span>
+        </div>
+      </div>
+    </header>
+  );
+};
+
+export default Header;
