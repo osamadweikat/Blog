@@ -10,7 +10,9 @@ const PostItem = ({ post }) => {
         <div className="post-item-info">
           <div className="post-item-author">
             <strong>Author: </strong>
-            <Link to="/profile/1">{post.user.username}</Link>
+            <Link className="post-item-username" to="/profile/1">
+              {post.user.username}
+            </Link>
           </div>
           <div className="post-item-date">
             {new Date(post.createdAt).toDateString()}
@@ -29,7 +31,10 @@ const PostItem = ({ post }) => {
           {post.description} Lorem ipsum dolor, sit amet consectetur adipisicing
           elit. Praesentium eos omnis id in dolorem nihil fugit reiciendis
           voluptatem illo eius assumenda atque quibusdam molestiae, unde ducimus
-          esse quaerat debitis. Repellat?
+          esse quaerat debitis. Repellat? Lorem ipsum dolor, sit amet
+          consectetur adipisicing elit. Praesentium eos omnis id in dolorem
+          nihil fugit reiciendis voluptatem illo eius assumenda atque quibusdam
+          molestiae, unde ducimus esse quaerat debitis. Repellat?
         </p>
         <Link className="post-item-link" to={`/posts/detailes/${post._id}`}>
           Read More...
