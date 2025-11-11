@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { posts } from "../../dummyData";
 import AddComment from "../../components/comments/AddComment";
 import CommentList from "../../components/comments/CommentList";
+import swal from "sweetalert";
 
 const PostDetails = () => {
   const { id } = useParams();
@@ -21,6 +22,24 @@ const PostDetails = () => {
     if (!file) return toast.warning("There is no file!");
 
     console.log("image uploaded successfully");
+  };
+
+  const deletePostHandler = () => {
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this post!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        swal("Post has been deleted!", {
+          icon: "success",
+        });
+      } else {
+        swal("Something went wrong!");
+      }
+    });
   };
 
   return (
@@ -74,7 +93,7 @@ const PostDetails = () => {
         </div>
         <div>
           <i className="bi bi-pencil-square"></i>
-          <i className="bi bi-trash-fill"></i>
+          <i onClick={deletePostHandler} className="bi bi-trash-fill"></i>
         </div>
       </div>
       <AddComment />
