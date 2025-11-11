@@ -36,7 +36,7 @@ const PostItem = ({ post }) => {
           nihil fugit reiciendis voluptatem illo eius assumenda atque quibusdam
           molestiae, unde ducimus esse quaerat debitis. Repellat?
         </p>
-        <Link className="post-item-link" to={`/posts/detailes/${post._id}`}>
+        <Link className="post-item-link" to={`/posts/details/${post._id}`}>
           Read More...
         </Link>
       </div>
