@@ -10,6 +10,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import Footer from "./components/footer/Footer";
 import PostDetails from "./pages/post-details/PostDetails";
 import Category from "./pages/category/Category";
+import Profile from "./pages/profile/Profile";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/profile/:id" element={<Profile />} />
         <Route path="posts">
           <Route index element={<PostsPage />} />
           <Route path="create-post" element={<CreatePost />} />
