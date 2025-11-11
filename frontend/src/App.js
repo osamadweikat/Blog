@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import Header from "./components/header/Header";
 import Home from "./pages/home/Home";
 import Register from "./pages/forms/Register";
@@ -12,6 +13,7 @@ import PostDetails from "./pages/post-details/PostDetails";
 function App() {
   return (
     <BrowserRouter>
+      <ToastContainer theme="colored" position="top-center" />
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />

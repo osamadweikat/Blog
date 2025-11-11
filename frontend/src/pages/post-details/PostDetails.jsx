@@ -1,26 +1,48 @@
 import "./post-details.css";
 import { useParams, Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { posts } from "../../dummyData";
 
 const PostDetails = () => {
   const { id } = useParams();
   const post = posts.find((p) => p._id === +id);
 
+  const [file, setFile] = useState(null);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  const updateImageSubmitHandler = (e) => {
+    e.preventDefault();
+    if (!file) return toast.warning("There is no file!");
+
+    console.log("image uploaded successfully");
+  };
+
   return (
     <section className="post-details">
       <div className="post-details-image-wrapper">
-        <img src={post.image} alt="" className="post-details-image" />
-        <form className="update-post-image-form">
+        <img
+          src={file ? URL.createObjectURL(file) : post.image}
+          alt=""
+          className="post-details-image"
+        />
+        <form
+          onSubmit={updateImageSubmitHandler}
+          className="update-post-image-form"
+        >
           <label htmlFor="file" className="update-post-label">
             <i className="bi bi-image-fill"></i>
             Select new image
           </label>
-          <input type="file" name="file" id="file" />
+          <input
+            type="file"
+            name="file"
+            id="file"
+            onChange={(e) => setFile(e.target.files[0])}
+          />
           <button type="submit">Upload</button>
         </form>
       </div>
