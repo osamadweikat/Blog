@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { posts } from "../../dummyData";
 import AddComment from "../../components/comments/AddComment";
+import CommentList from "../../components/comments/CommentList";
 
 const PostDetails = () => {
   const { id } = useParams();
@@ -77,6 +78,7 @@ const PostDetails = () => {
         </div>
       </div>
       <AddComment />
+      <CommentList />
     </section>
   );
 };
