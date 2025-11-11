@@ -6,11 +6,13 @@ import { posts } from "../../dummyData";
 import AddComment from "../../components/comments/AddComment";
 import CommentList from "../../components/comments/CommentList";
 import swal from "sweetalert";
+import UpdatePostModal from "./UpdatePostModal";
 
 const PostDetails = () => {
   const { id } = useParams();
   const post = posts.find((p) => p._id === +id);
 
+  const [updatePost, setUpdatePost] = useState(false);
   const [file, setFile] = useState(null);
 
   useEffect(() => {
@@ -92,12 +94,18 @@ const PostDetails = () => {
           <small>{post.likes.length} likes</small>
         </div>
         <div>
-          <i className="bi bi-pencil-square"></i>
+          <i
+            onClick={() => setUpdatePost(true)}
+            className="bi bi-pencil-square"
+          ></i>
           <i onClick={deletePostHandler} className="bi bi-trash-fill"></i>
         </div>
       </div>
       <AddComment />
       <CommentList />
+      {updatePost && (
+        <UpdatePostModal post={post} setUpdatePost={setUpdatePost} />
+      )}
     </section>
   );
 };
