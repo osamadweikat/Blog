@@ -13,6 +13,7 @@ import Category from "./pages/category/Category";
 import Profile from "./pages/profile/Profile";
 import UsersTable from "./pages/admin/UsersTable";
 import PostsTable from "./pages/admin/PostsTable";
+import CategoriesTable from "./pages/admin/CategoriesTable";
 
 function App() {
   return (
@@ -33,6 +34,10 @@ function App() {
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/admin-dashboard/users-table" element={<UsersTable />} />
         <Route path="/admin-dashboard/posts-table" element={<PostsTable />} />
+        <Route
+          path="/admin-dashboard/categories-table"
+          element={<CategoriesTable />}
+        />
       </Routes>
       <Footer />
     </BrowserRouter>
