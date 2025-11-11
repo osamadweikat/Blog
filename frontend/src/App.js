@@ -14,6 +14,7 @@ import Profile from "./pages/profile/Profile";
 import UsersTable from "./pages/admin/UsersTable";
 import PostsTable from "./pages/admin/PostsTable";
 import CategoriesTable from "./pages/admin/CategoriesTable";
+import CommentsTable from "./pages/admin/CommentsTable";
 
 function App() {
   return (
@@ -31,13 +32,13 @@ function App() {
           <Route path="details/:id" element={<PostDetails />} />
           <Route path="categories/:category" element={<Category />} />
         </Route>
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        <Route path="/admin-dashboard/users-table" element={<UsersTable />} />
-        <Route path="/admin-dashboard/posts-table" element={<PostsTable />} />
-        <Route
-          path="/admin-dashboard/categories-table"
-          element={<CategoriesTable />}
-        />
+        <Route path="admin-dashboard">
+          <Route index element={<AdminDashboard />} />
+          <Route path="users-table" element={<UsersTable />} />
+          <Route path="posts-table" element={<PostsTable />} />
+          <Route path="categories-table" element={<CategoriesTable />} />
+          <Route path="comments-table" element={<CommentsTable />} />
+        </Route>
       </Routes>
       <Footer />
     </BrowserRouter>
