@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import AddCategoryForm from "./AddCategoryForm";
 
 const AdminMain = () => {
   return (
@@ -59,6 +60,7 @@ const AdminMain = () => {
           </div>
         </div>
       </div>
+      <AddCategoryForm />
     </div>
   );
 };
