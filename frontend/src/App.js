@@ -9,6 +9,7 @@ import CreatePost from "./pages/create-post/CreatePost";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import Footer from "./components/footer/Footer";
 import PostDetails from "./pages/post-details/PostDetails";
+import Category from "./pages/category/Category";
 
 function App() {
   return (
@@ -19,9 +20,12 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/posts" element={<PostsPage />} />
-        <Route path="/posts/create-post" element={<CreatePost />} />
-        <Route path="/posts/details/:id" element={<PostDetails />} />
+        <Route path="posts">
+          <Route index element={<PostsPage />} />
+          <Route path="create-post" element={<CreatePost />} />
+          <Route path="details/:id" element={<PostDetails />} />
+          <Route path="categories/:category" element={<Category />} />
+        </Route>
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
       </Routes>
       <Footer />
