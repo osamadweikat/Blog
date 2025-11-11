@@ -11,6 +11,7 @@ import Footer from "./components/footer/Footer";
 import PostDetails from "./pages/post-details/PostDetails";
 import Category from "./pages/category/Category";
 import Profile from "./pages/profile/Profile";
+import UsersTable from "./pages/admin/UsersTable";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="categories/:category" element={<Category />} />
         </Route>
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/admin-dashboard/users-table" element={<UsersTable />} />
       </Routes>
       <Footer />
     </BrowserRouter>
