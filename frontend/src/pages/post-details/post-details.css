@@ -113,6 +113,11 @@
   cursor: pointer;
 }
 
+.post-details-info-write {
+  font-size: 17px;
+  color: var(--gray-color);
+}
+
 @media (max-width: 820px) {
   .post-details {
     width: 100%;
