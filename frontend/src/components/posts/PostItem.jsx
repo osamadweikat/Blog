@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 
-const PostItem = ({ post }) => {
+const PostItem = ({ post, username, userId }) => {
+  const profileLink = userId
+    ? `/profile/${userId}`
+    : `/profile/${post?.user?._id}`;
+
   return (
     <div className="post-item">
       <div className="post-item-image-wrapper">
@@ -10,11 +14,8 @@ const PostItem = ({ post }) => {
         <div className="post-item-info">
           <div className="post-item-author">
             <strong>Author: </strong>
-            <Link
-              className="post-item-username"
-              to={`/profile/${post?.user?._id}`}
-            >
-              {post?.user.username}
+            <Link className="post-item-username" to={profileLink}>
+              {username ? username : post?.user.username}
             </Link>
           </div>
           <div className="post-item-date">
@@ -27,17 +28,18 @@ const PostItem = ({ post }) => {
             className="post-item-category"
             to={`/posts/categories/${post?.category}`}
           >
-            {post.category}
+            {post?.category}
           </Link>
         </div>
         <p className="post-item-description">
-          {post?.description} Lorem ipsum dolor, sit amet consectetur
-          adipisicing elit. Praesentium eos omnis id in dolorem nihil fugit
-          reiciendis voluptatem illo eius assumenda atque quibusdam molestiae,
-          unde ducimus esse quaerat debitis. Repellat? Lorem ipsum dolor, sit
-          amet consectetur adipisicing elit. Praesentium eos omnis id in dolorem
-          nihil fugit reiciendis voluptatem illo eius assumenda atque quibusdam
-          molestiae, unde ducimus esse quaerat debitis. Repellat?
+          {post?.description}
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo hic
+          assumenda necessitatibus in voluptatibus sapiente debitis.
+          Perspiciatis, ipsam eos? Tempora dolorem itaque sed assumenda maiores
+          iure animi et magnam quae! Lorem ipsum dolor sit amet consectetur
+          adipisicing elit. Nemo hic assumenda necessitatibus in voluptatibus
+          sapiente debitis. Perspiciatis, ipsam eos? Tempora dolorem itaque sed
+          assumenda maiores iure animi et magnam quae!
         </p>
         <Link className="post-item-link" to={`/posts/details/${post?._id}`}>
           Read More...
