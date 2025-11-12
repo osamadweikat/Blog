@@ -39,7 +39,10 @@ function App() {
         />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/profile/:id" element={<Profile />} />
+        <Route
+          path="/profile/:id"
+          element={user ? <Profile /> : <Navigate to="/" />}
+        />
         <Route path="posts">
           <Route index element={<PostsPage />} />
           <Route
