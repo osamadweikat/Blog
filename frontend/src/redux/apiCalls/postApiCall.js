@@ -84,3 +84,19 @@ export function toggleLikePost(postId) {
     }
   };
 }
+
+export function updatePostImage(newImage, postId) {
+  return async (dispatch, getState) => {
+    try {
+      await request.put(`/api/posts/update-image/${postId}`, newImage, {
+        headers: {
+          Authorization: "Bearer " + getState().auth.user.token,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      toast.success("New post image uploaded successfully");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+}
