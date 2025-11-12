@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./update-post.css";
+import "./update-post-modal.css";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { updatePost } from "../../redux/apiCalls/postApiCall";
