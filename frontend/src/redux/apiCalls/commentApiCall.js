@@ -16,3 +16,22 @@ export function createComment(newComment) {
     }
   };
 }
+
+export function updateComment(commentId, comment) {
+  return async (dispatch, getState) => {
+    try {
+      const { data } = await request.put(
+        `/api/comments/${commentId}`,
+        comment,
+        {
+          headers: {
+            Authorization: "Bearer " + getState().auth.user.token,
+          },
+        }
+      );
+      dispatch(postActions.updateCommentPost(data));
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+}
