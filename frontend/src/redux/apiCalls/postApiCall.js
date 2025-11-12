@@ -100,3 +100,18 @@ export function updatePostImage(newImage, postId) {
     }
   };
 }
+
+export function updatePost(newPost, postId) {
+  return async (dispatch, getState) => {
+    try {
+      const { data } = await request.put(`/api/posts/${postId}`, newPost, {
+        headers: {
+          Authorization: "Bearer " + getState().auth.user.token,
+        },
+      });
+      dispatch(postActions.setPost(data));
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+}
