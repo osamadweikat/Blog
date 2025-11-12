@@ -7,7 +7,10 @@ import UpdateProfileModal from "./UpdateProfileModal";
 import { posts } from "../../dummyData";
 import { toast } from "react-toastify";
 import swal from "sweetalert";
-import { getUserProfile } from "../../redux/apiCalls/profileApiCall";
+import {
+  getUserProfile,
+  uploadProfilePhoto,
+} from "../../redux/apiCalls/profileApiCall";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -27,7 +30,10 @@ const Profile = () => {
     e.preventDefault();
     if (!file) return toast.warning("There is no file!");
 
-    console.log("image uploaded");
+    const formData = new FormData();
+    formData.append("image", file);
+
+    dispatch(uploadProfilePhoto(formData));
   };
 
   const deleteAccountHandler = () => {
