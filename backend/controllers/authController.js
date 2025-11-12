@@ -74,5 +74,6 @@ module.exports.loginUser = asyncHandler(async (req, res) => {
     isAdmin: user.isAdmin,
     profilePhoto: user.profilePhoto,
     token,
+    username: user.username,
   });
 });
