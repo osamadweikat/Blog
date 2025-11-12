@@ -14,3 +14,10 @@ export function loginUser(user) {
     }
   };
 }
+
+export function logoutUser() {
+  return (dispatch) => {
+    dispatch(authActions.logout());
+    localStorage.removeItem("userInfo");
+  };
+}
