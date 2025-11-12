@@ -1,15 +1,14 @@
 import "./update-profile-modal.css";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { updateProfile } from "../../redux/apiCalls/profileApiCall";
 
-const user = {
-  username: "Youssef",
-  bio: "Hello my name is youssef",
-};
+const UpdateProfileModal = ({ setUpdateProfile, profile }) => {
+  const dispatch = useDispatch();
 
-const UpdateProfileModal = ({ setUpdateProfile }) => {
-  const [username, setUsername] = useState(user.username);
-  const [bio, setBio] = useState(user.bio);
+  const [username, setUsername] = useState(profile.username);
+  const [bio, setBio] = useState(profile.bio);
   const [password, setPassword] = useState("");
 
   const formSubmitHandler = (e) => {
@@ -23,7 +22,8 @@ const UpdateProfileModal = ({ setUpdateProfile }) => {
     if (username.trim() === "") return toast.error("Username is required");
     if (bio.trim() === "") return toast.error("Bio is required");
 
-    console.log(updatedUser);
+    dispatch(updateProfile(profile?._id, updatedUser));
+    setUpdateProfile(false);
   };
 
   return (
