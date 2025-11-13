@@ -18,6 +18,21 @@ A modern **React & Redux** frontend for a blog application with **user authentic
 
 ---
 
+## 🧰 Technologies & Tools Used
+
+- ⚛️ **React 19** – UI library
+- 🧭 **React Router DOM 7** – Client-side routing
+- 🧠 **Redux Toolkit** – State management
+- 🔗 **Axios** – API requests
+- 🗓️ **Day.js** – Date formatting
+- 🔔 **React Toastify** – Toast notifications
+- 💬 **SweetAlert** – Confirmation dialogs
+- ⏳ **React Loader Spinner** – Global loading indicators
+- 🧪 **Testing Library** – Unit and integration testing
+- 🎨 **Custom CSS / TailwindCSS** – Responsive design
+
+---
+
 ## 🛠️ Project Structure
 
 ```
