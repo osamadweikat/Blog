@@ -1,6 +1,5 @@
 const express = require("express");
 const connectToDb = require("./config/connectToDb");
-const rateLimiting = require("express-rate-limit");
 const helmet = require("helmet");
 const hpp = require("hpp");
 const { errorHandler, notFound } = require("./middlewares/error");
@@ -17,12 +16,6 @@ app.use(helmet());
 
 app.use(hpp());
 
-app.use(
-  rateLimiting({
-    windowMs: 10 * 60 * 1000,
-    max: 200,
-  })
-);
 
 app.use(
   cors({
