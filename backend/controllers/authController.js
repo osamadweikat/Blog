@@ -42,7 +42,7 @@ module.exports.registerUser = asyncHandler(async (req, res) => {
   });
   await verifictionToken.save();
 
-  const link = `http://localhost:3000/users/${user._id}/verify/${verificationToken.token}`;
+  const link = `http://localhost:3000/users/${user._id}/verify/${verifictionToken.token}`;
 
   const htmlTemplate = `
     <div>
