@@ -42,7 +42,7 @@ module.exports.registerUser = asyncHandler(async (req, res) => {
   });
   await verifictionToken.save();
 
-  const link = `${process.env.CLIENT_DOMAIN}/users/${user._id}/verify/${verifictionToken.token}`;
+  const link = `${process.env.CLIENT_DOMAIN}/api/auth/${user._id}/verify/${verifictionToken.token}`;
 
   const htmlTemplate = `
     <div>
