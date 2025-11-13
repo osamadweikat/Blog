@@ -144,7 +144,7 @@ module.exports.verifyUserAccount = asyncHandler(async (req, res) => {
   user.isAccountVerified = true;
   await user.save();
 
-  await verificationToken.remove();
+  await verificationToken.deleteOne();
 
   res.status(200).json({ message: "Your account verified" });
 });
