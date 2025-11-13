@@ -1,15 +1,19 @@
-import "./form.css";
-import { toast } from "react-toastify";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import "./form.css";
+import { useDispatch } from "react-redux";
+import { forgotPassword } from "../../redux/apiCalls/passwordApiCall";
 
-const ForgotPassword = () => {
+const FrogotPassword = () => {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState("");
 
   const formSubmitHandler = (e) => {
     e.preventDefault();
     if (email.trim() === "") return toast.error("Email is required");
 
-    console.log({ email });
+    dispatch(forgotPassword(email));
   };
 
   return (
@@ -21,15 +25,15 @@ const ForgotPassword = () => {
             Email
           </label>
           <input
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
             type="email"
+            className="form-input"
             id="email"
             placeholder="Enter your email"
-            className="form-input"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <button type="submit" className="form-btn">
+        <button className="form-btn" type="submit">
           Submit
         </button>
       </form>
@@ -37,4 +41,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default FrogotPassword;
