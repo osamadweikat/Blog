@@ -1,70 +1,120 @@
-# Getting Started with Create React App
+# 🖥️ Blog Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern **React & Redux** frontend for a blog application with **user authentication, posts, comments, categories, and profile management**. Fully responsive and interactive! 🚀
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🌟 Features
 
-### `npm start`
+- 🧑‍💻 User Authentication: Register, Login, Forgot Password, Reset Password
+- 🖼️ Profile Management: Upload profile photo, edit details, delete account
+- ✍️ Posts: Create, edit, delete, like/unlike posts
+- 💬 Comments: Add, edit, delete comments on posts
+- 📂 Categories: View posts by category
+- 🔍 Pagination & Search: Browse posts with pagination and search/filter functionality
+- 🔔 Notifications: Toast notifications for actions
+- 📱 Responsive Design: Works perfectly on desktop & mobile
+- ⚡ Admin Dashboard (Optional): Manage posts, comments, categories, and users
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🛠️ Project Structure
 
-### `npm test`
+```
+src/
+│─ components/
+│  ├─ Header.jsx
+│  ├─ Footer.jsx
+│  ├─ PostList.jsx
+│  ├─ PostItem.jsx
+│  ├─ CommentList.jsx
+│  ├─ AddComment.jsx
+│  └─ ...
+│
+│─ pages/
+│  ├─ Home.jsx
+│  ├─ PostDetails.jsx
+│  ├─ Profile.jsx
+│  ├─ Register.jsx
+│  ├─ Login.jsx
+│  ├─ ForgotPassword.jsx
+│  ├─ ResetPassword.jsx
+│  └─ ...
+│
+│─ redux/
+│  ├─ slices/
+│  │  ├─ authSlice.js
+│  │  ├─ postsSlice.js
+│  │  ├─ commentsSlice.js
+│  │  └─ ...
+│  └─ store.js
+│
+│─ App.jsx
+│─ index.js
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 🚀 Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Prerequisites
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Node.js >= 18
+- Backend API running (any server with endpoints for users, posts, comments, categories)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Installation
 
-### `npm run eject`
+```bash
+git clone https://github.com/osamadweikat/blog-frontend.git
+cd blog-frontend
+npm install
+npm start
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+**Environment Variables (.env)**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+REACT_APP_API_URL=http://localhost:3000/api
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🌐 Pages & Components
 
-## Learn More
+### Pages
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Home → Display list of posts with pagination
+- Post Details → View a single post with comments and likes
+- Profile → User profile with posts, edit profile, and delete account
+- Register / Login / Forgot Password / Reset Password → Authentication forms
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Components
 
-### Code Splitting
+- Header / Footer → Navigation and footer section
+- PostList / PostItem → Reusable components to display posts
+- CommentList / AddComment → Display and add comments
+- UpdatePostModal / UpdateCommentModal → Edit posts/comments in a modal
+- Pagination → Navigate between pages of posts
+- Admin Tables → Manage posts, comments, categories, users (optional admin panel)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## 🎨 Styling
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- Fully responsive using TailwindCSS and custom CSS
+- Elegant modals, buttons, and forms
+- Smooth transitions and hover effects
+- Notifications with Toastify
+- Confirmations with SweetAlert
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 💡 Tips
 
-### Advanced Configuration
+- Connect this frontend with a backend API using Axios
+- Store user session with Redux Toolkit + localStorage
+- Use environment variable for API base URL to switch between dev & prod
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+---
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Made with ❤️ by **Osama Dweikat** 🖤💻✨
