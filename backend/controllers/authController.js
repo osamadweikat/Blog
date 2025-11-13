@@ -42,7 +42,7 @@ module.exports.registerUser = asyncHandler(async (req, res) => {
   });
   await verifictionToken.save();
 
-  const link = `${process.env.CLIENT_DOMAIN}/api/auth/${user._id}/verify/${verifictionToken.token}`;
+  const link = `http://localhost:3000/api/auth/${user._id}/verify/${verifictionToken.token}`;
 
   const htmlTemplate = `
     <div>
@@ -95,7 +95,7 @@ module.exports.loginUser = asyncHandler(async (req, res) => {
       await verificationToken.save();
     }
 
-    const link = `${process.env.CLIENT_DOMAIN}/users/${user._id}/verify/${verificationToken.token}`;
+    const link = `http://localhost:3000/users/${user._id}/verify/${verificationToken.token}`;
 
     const htmlTemplate = `
     <div>
