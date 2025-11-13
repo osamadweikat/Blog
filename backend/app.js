@@ -1,6 +1,5 @@
 const express = require("express");
 const connectToDb = require("./config/connectToDb");
-const xss = require("xss-clean");
 const rateLimiting = require("express-rate-limit");
 const helmet = require("helmet");
 const hpp = require("hpp");
@@ -17,8 +16,6 @@ app.use(express.json());
 app.use(helmet());
 
 app.use(hpp());
-
-app.use(xss());
 
 app.use(
   rateLimiting({
