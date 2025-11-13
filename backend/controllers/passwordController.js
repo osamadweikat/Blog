@@ -33,7 +33,7 @@ module.exports.sendResetPasswordLink = asyncHandler(async (req, res) => {
     await verificationToken.save();
   }
 
-  const link = `http://localhost:3000/reset-password/${user._id}/${verificationToken.token}`;
+  const link = `${process.env.CLIENT_DOMAIN}/reset-password/${user._id}/${verificationToken.token}`;
   const htmlTemplate = `<a href="${link}">Click here to reset your password</a>`;
   await sendEmail(user.email, "Reset Password", htmlTemplate);
   res.status(200).json({
